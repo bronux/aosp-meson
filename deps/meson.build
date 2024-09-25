@@ -5,11 +5,18 @@ inc = include_directories(
   './libbase/include',
   './core/include',
   './core/libcutils/include',
+  './art/libartpalette/include',
+  './art/libartbase',
+  './libnativehelper/include',
+  './libnativehelper/include_jni',
+  './libnativehelper/include_platform',
 )
 
 subdir('logging')
 subdir('core')
 subdir('libbase')
+subdir('libnativehelper')
+subdir('art')
 
 liblog = library(
   'log',
@@ -44,7 +51,29 @@ libcutils = library(
   install: true,
 )
 
+libnativehelper = library(
+  'nativehelper',
+  nativehelper_files,
+  include_directories: inc,
+  dependencies: [liblog_dep],
+  c_args: ['-D_DEFAULT_SOURCE'],
+  install: true,
+)
+
+libartpalette = library(
+  'artpalette',
+  artpalette_files,
+  include_directories: inc,
+  dependencies: [libbase_dep, liblog_dep],
+  install: true,
+)
+libartpalette_dep = declare_dependency(
+  link_with: [libartpalette],
+  include_directories: inc,
+)
+
 pkg.generate(liblog)
 pkg.generate(libbase)
 pkg.generate(libcutils)
+pkg.generate(libartpalette)
 
