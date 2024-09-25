@@ -1,3 +1,5 @@
+pkg = import('pkgconfig')
+
 inc = include_directories(
   './logging/liblog/include',
   './libbase/include',
@@ -13,6 +15,7 @@ liblog = library(
   'log',
   log_files,
   include_directories: inc,
+  install: true,
 )
 liblog_dep = declare_dependency(
   link_with: [liblog],
@@ -25,6 +28,7 @@ libbase = library(
   include_directories: inc,
   cpp_args: ['-D_DEFAULT_SOURCE'],
   dependencies: [liblog_dep],
+  install: true,
 )
 libbase_dep = declare_dependency(
   link_with: [libbase],
@@ -37,4 +41,10 @@ libcutils = library(
   include_directories: inc,
   cpp_args: ['-DPROP_NAME_MAX=32'],
   dependencies: [libbase_dep, liblog_dep],
+  install: true,
 )
+
+pkg.generate(liblog)
+pkg.generate(libbase)
+pkg.generate(libcutils)
+
