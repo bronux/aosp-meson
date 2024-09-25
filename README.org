@@ -1,0 +1,17 @@
+#+TITLE: aosp-meson
+
+This is a project that aims to make the Android Open Source Project easily buildable without bringing in 400 gigabytes of dependencies and prebuilt binaries.
+
+* Building
+Currently only a few libraries are buildable at the moment.
+You need to have a relatively modern C/C++ compiler installed, such as Clang 19 or GCC 14.
+
+#+BEGIN_SRC shell
+meson setup build
+ninja -C build
+#+END_SRC
+
+* TODO
+- [ ] ART java runtime
+- [ ] fastboot
+- [ ] adb
